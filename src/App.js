@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import {
-  BrowserRouter as Router,
+  
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-
+import { BrowserRouter } from 'react-router-dom';
 import Login from "./components/Login";
 import SignUp from "./components/Registermy";
 
@@ -17,6 +17,8 @@ import Profile from "./components/Profile";
 import { useState } from "react";
 import { auth } from "./components/Firebase";
 
+
+import { Profiles } from "./components/Profiles";
 function App() {
   const [user, setUser] = useState();
   useEffect(() => {
@@ -25,7 +27,7 @@ function App() {
     });
   });
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <div className="auth-wrapper">
           <div className="auth-inner">
@@ -36,14 +38,15 @@ function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/registermy" element={<SignUp />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profiles" element={<Profiles />} />
               
             </Routes>
             <ToastContainer />
           </div>
         </div>
       </div>
-    </Router>
+      
+      </BrowserRouter>
   );
 }
 

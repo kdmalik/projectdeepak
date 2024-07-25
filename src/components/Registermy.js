@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import './Register.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from "react-redux";
+import { register } from '../storeroom/reducer'; // Adjust the path as needed
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -15,9 +17,12 @@ function Register() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [verified, setVerified] = useState(false);
+  
+  const dispatch = useDispatch();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (!verified) {
       toast.error("Please complete the CAPTCHA", {
         position: "bottom-center",
@@ -36,10 +41,18 @@ function Register() {
           photo: ""
         });
       }
+      dispatch(register({
+        id: new Date().getTime(),
+        fname,
+        lname,
+        email,
+        password
+      }));
       console.log("User Registered Successfully!!");
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
+      window.location.href = "/profiles";
     } catch (error) {
       console.log(error.message);
       toast.error(error.message, {
