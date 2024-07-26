@@ -4,11 +4,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { auth, db } from "./Firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import './Register.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import "./Register.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { register } from '../storeroom/reducer'; // Adjust the path as needed
+import { register } from "../storeroom/reducer";
+import store from "../storeroom/reducer";
+import { useNavigate } from "react-router-dom"; // Adjust the path as needed
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -17,8 +19,9 @@ function Register() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [verified, setVerified] = useState(false);
-  
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -38,21 +41,36 @@ function Register() {
           email: user.email,
           firstName: fname,
           lastName: lname,
-          photo: ""
+          photo: "",
         });
       }
-      dispatch(register({
+      console.log("Dispatching register with:", {
         id: new Date().getTime(),
         fname,
         lname,
         email,
-        password
-      }));
+        password,
+      });
+      dispatch(
+        register({
+          id: new Date().getTime(),
+          fname,
+          lname,
+          email,
+          password,
+        })
+      );
+
+      console.log("Current Redux state:", store.getState());
+
       console.log("User Registered Successfully!!");
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
-      window.location.href = "/profiles";
+
+      // In your handleRegister function
+      navigate("/profiles");
+
     } catch (error) {
       console.log(error.message);
       toast.error(error.message, {

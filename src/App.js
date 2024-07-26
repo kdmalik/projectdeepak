@@ -32,10 +32,10 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Routes>
-              <Route
+              {/* <Route
                 path="/"
                 element={user ? <Navigate to="/Profile" /> : <Login />}
-              />
+              /> */}
               <Route path="/login" element={<Login />} />
               <Route path="/registermy" element={<SignUp />} />
               <Route path="/profiles" element={<Profiles />} />
